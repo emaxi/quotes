@@ -1,0 +1,125 @@
+/* ── Reset ─────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Custom Properties ─────────────────────────────── */
+:root {
+  --bg: #0c0c0e;
+  --text: #e8e4df;
+  --accent: #a38a6a;
+  --muted: #6b6560;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+}
+
+/* ── Body ──────────────────────────────────────────── */
+html,
+body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Noise / grain texture overlay ─────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  z-index: 10;
+}
+
+/* ── Quote Container ───────────────────────────────── */
+main {
+  max-width: 680px;
+  padding: 2rem;
+  text-align: center;
+  animation: fadeIn 1.2s ease both;
+}
+
+blockquote {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  line-height: 1.45;
+  font-style: italic;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+cite {
+  display: block;
+  margin-top: 1.6rem;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-style: normal;
+}
+
+/* ── Loader (3 bouncing dots) ──────────────────────── */
+.loader {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ── Utility ───────────────────────────────────────── */
+.hidden {
+  display: none !important;
+}
+
+/* ── Keyframes ─────────────────────────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  40% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}

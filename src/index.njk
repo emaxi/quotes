@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>quotes — a moment of inspiration</title>
+    <meta name="description" content="A single random quote to inspire your day."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400&display=swap"
+      rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ '/css/style.css' | url }}"/>
+  </head>
+  <body>
+    <main id="quote-container" class="hidden">
+      <blockquote id="quote-text"></blockquote>
+      <cite id="quote-author"></cite>
+    </main>
+    <div id="loader" class="loader">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <script>
+      const API_URL = "https://quoteslate.vercel.app/api/quotes/random";
+      async function fetchQuote() {
+        try {
+          const res = await fetch(API_URL);
+          if (! res.ok) 
+            throw new Error("API error");
+          
+          const data = await res.json();
+          document.getElementById("quote-text").textContent = `\u201C${
+            data.quote
+          }\u201D`;
+          document.getElementById("quote-author").textContent = `— ${
+            data.author
+          }`;
+          document
+            .getElementById("loader")
+            .classList
+            .add("hidden");
+          document
+            .getElementById("quote-container")
+            .classList
+            .remove("hidden");
+        } catch (err) {
+          document
+            .getElementById("loader")
+            .classList
+            .add("hidden");
+          document
+            .getElementById("quote-container")
+            .classList
+            .remove("hidden");
+          document.getElementById("quote-text").textContent = "\u201CThe only way to do great work is to love what you do.\u201D";
+          document.getElementById("quote-author").textContent = "— Steve Jobs";
+        }
+      }
+      fetchQuote();
+    </script>
+  </body>
+</html>
